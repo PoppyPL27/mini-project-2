@@ -69,6 +69,7 @@ class student(person):
         return("this students classes now are: \n"+self.getclasses())
     
     def getAttendancepercentage(self):
+        #loops though their present and abscent marks tallying them
         totalClasses = 0
         presentClasses = 0
         for mark in self.attendanceRecord:
@@ -76,8 +77,9 @@ class student(person):
             if mark == "present":
                 presentClasses = presentClasses + 1
         try:
+            #uses the tallys to calculate a percentage attendance rate
             atendancePercentage = (100/totalClasses) * presentClasses
-        except ZeroDivisionError:
+        except ZeroDivisionError: # if they havent attended any classes at all it will raise an issue so that is solved here
             atendancePercentage = 0
         return atendancePercentage
     
@@ -129,17 +131,18 @@ def RegisterClass( date, lecturer):
     StudentList = lecturer.getStudentList()
     #create a register file with custom name for the course and date
     register = open(classname+date+".txt", "a") #will create the file if it doesnt exist or can be used to overwrite if an error was made on the day
-
+    #loop through the students and mark them either present or abscent 
     for student in StudentList:
         present = ""
         while present != "y" and present !="n":
             present = input("is "+ student.getname()+ " here: ")
         if present == "y":
             register.write(student.getname()+ ": present\n")
-            student.addAttendancerecord("present")
+            student.addAttendancerecord("present") # update their attendance record
         if present == "n":
             register.write(student.getname()+ ": absent\n")
-            student.addAttendancerecord("absent")
+            student.addAttendancerecord("absent") # update their attendance record
+    register.close() # always remember to close files
 
 
         
